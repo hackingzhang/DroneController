@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_controller"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.xinyu.dronecontroller.ControllerActivity">
+
+    <Switch
+        android:id="@+id/swtUnlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/unlock"
+        android:textIsSelectable="true"/>
+
+    <com.xinyu.joystick.Joystick
+        android:id="@+id/throttle_and_yaw"
+        app:IsThrottle="true"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"/>
+
+    <com.xinyu.joystick.Joystick
+        android:id="@+id/pitch_and_roll"
+        app:IsThrottle="false"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:layout_toRightOf="@id/throttle_and_yaw"
+        android:layout_toLeftOf="@id/pitch_and_roll"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+    
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Throttle:"/>
+
+        <TextView
+            android:id="@+id/txtThrottle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Yaw:"/>
+
+        <TextView
+            android:id="@+id/txtYaw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Pitch:"/>
+
+        <TextView
+            android:id="@+id/txtPitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Roll:"/>
+
+        <TextView
+            android:id="@+id/txtRoll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Left Angle:"/>
+
+        <TextView
+            android:id="@+id/txtLeftAngle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Right Angle:"/>
+
+        <TextView
+            android:id="@+id/txtRightAngle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+        
+    </LinearLayout>
+
+</RelativeLayout>
