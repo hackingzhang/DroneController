@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.xinyu.joystick.Joystick;
 
 import java.net.Socket;
+import java.util.Date;
 
 public class ControllerActivity extends AppCompatActivity {
     private static final int ACTION_CONTROL_SEND = 3;
@@ -33,6 +35,9 @@ public class ControllerActivity extends AppCompatActivity {
     private TextView txtPitch;
     private TextView txtRoll;
 
+    private long lastPressTime = new Date().getTime();
+    private int pressCount = 0;
+
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg){
@@ -49,7 +54,11 @@ public class ControllerActivity extends AppCompatActivity {
         }
     };
 
-    private void send(final String data){
+    /**
+     * 发送控制信息
+     * @param data
+     */
+    private void sendControl(final String data){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -86,6 +95,27 @@ public class ControllerActivity extends AppCompatActivity {
         txtRoll = (TextView) findViewById(R.id.txtRoll);
     }
 
+    @Override
+    public void onBackPressed(){
+        long now = new Date().getTime();
+        if((now - lastPressTime) > 200){
+            pressCount = 0;
+        }
+
+        pressCount++;
+        Log.i("count", String.valueOf(pressCount));
+        if(pressCount == 5){
+            this.onDestroy();
+        }
+        lastPressTime = now;
+    }
+
+    @Override
+    public void onDestroy(){
+        SocketService.close();
+        super.onDestroy();
+    }
+
     /**
      * 油门和偏航监听器
      */
@@ -94,7 +124,7 @@ public class ControllerActivity extends AppCompatActivity {
             txtLeftAngle.setText(String.valueOf(angle));
             txtThrottle.setText(String.valueOf(strengthY));
             txtYaw.setText(String.valueOf(strengthX));
-            send("{\"angle\": " + angle + ", \"strengthX\":" + strengthX + ", \"strengthX\":" + strengthX + "}");
+            sendControl("controll," + angle + "," + strengthX + "," + strengthY);
         }
     }
 
@@ -103,16 +133,16 @@ public class ControllerActivity extends AppCompatActivity {
             txtRightAngle.setText(String.valueOf(angle));
             txtPitch.setText(String.valueOf(strengthY));
             txtRoll.setText(String.valueOf(strengthX));
-            send("{\"angle\": " + angle + ", \"strengthX\":" + strengthX + ", \"strengthX\":" + strengthX + "}");
+            sendControl("controll," + angle + "," + strengthX + "," + strengthY);
         }
     }
 
     class UnlockChangeListener implements Switch.OnCheckedChangeListener {
         public void onCheckedChanged(CompoundButton btn, boolean checked){
             if(checked)
-                unlocked = true;
+                sendControl("action,lock");
             else
-                unlocked = false;
+                sendControl("action,unlock");
         }
     }
 }
