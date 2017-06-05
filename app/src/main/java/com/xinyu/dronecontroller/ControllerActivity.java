@@ -71,7 +71,8 @@ public class ControllerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 设置全屏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_controller);
@@ -121,28 +122,36 @@ public class ControllerActivity extends AppCompatActivity {
      */
     class ThrottleAndYawListener implements Joystick.onAngleAndStrengthListenner{
         public void onAngleAndStrength(double angle, double strengthX, double strengthY){
-            txtLeftAngle.setText(String.valueOf(angle));
-            txtThrottle.setText(String.valueOf(strengthY));
-            txtYaw.setText(String.valueOf(strengthX));
-            sendControl("controll," + angle + "," + strengthX + "," + strengthY);
+            String str_angle = String.format("%.2f", angle),
+                    str_strengthX = String.format("%.2f", strengthX),
+                    str_strengthY = String.format("%.2f", strengthY);
+
+            txtLeftAngle.setText(str_angle);
+            txtThrottle.setText(str_strengthY);
+            txtYaw.setText(str_strengthX);
+            sendControl("left," + str_angle + "," + str_strengthX + "," + str_strengthY);
         }
     }
 
     class PitchAndRollListener implements Joystick.onAngleAndStrengthListenner{
         public void onAngleAndStrength(double angle, double strengthX, double strengthY) {
-            txtRightAngle.setText(String.valueOf(angle));
-            txtPitch.setText(String.valueOf(strengthY));
-            txtRoll.setText(String.valueOf(strengthX));
-            sendControl("controll," + angle + "," + strengthX + "," + strengthY);
+            String str_angle = String.format("%.2f", angle),
+                    str_strengthX = String.format("%.2f", strengthX),
+                    str_strengthY = String.format("%.2f", strengthY);
+
+            txtRightAngle.setText(str_angle);
+            txtPitch.setText(str_strengthY);
+            txtRoll.setText(str_strengthX);
+            sendControl("right," + str_angle + "," + str_strengthX + "," + str_strengthY);
         }
     }
 
     class UnlockChangeListener implements Switch.OnCheckedChangeListener {
         public void onCheckedChanged(CompoundButton btn, boolean checked){
             if(checked)
-                sendControl("action,lock");
-            else
                 sendControl("action,unlock");
+            else
+                sendControl("action,lock");
         }
     }
 }

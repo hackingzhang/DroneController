@@ -58,8 +58,6 @@ public class SocketService extends Service {
             tmpSocket.connect(new InetSocketAddress(ip, port), 200);
             reader = new BufferedReader(new InputStreamReader(tmpSocket.getInputStream()));
             String echo = reader.readLine();
-//            char[] echo = new char[11];
-//            reader.read(echo);
             if(echo.equals(ECHO_KEY)){
                 return true;
             }else{
